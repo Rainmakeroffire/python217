@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ super() }}
+{% endblock %}
+
+
+{% block content %}
+{{ super() }}
+  <div class="news">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="section-heading">
+            <h2>Football Market Today: Your Source for Breaking Transfer News</h2>
+            <p>Stay In the Loop with the Latest Player Transitions and Rumors.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="items">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="item">
+                  <div class="row">
+                    <div class="col-lg-4 col-sm-5">
+                      <div class="image">
+                        <img src="{{ url_for('static', filename='assets/images/news-01.jpg') }}" alt="">
+                      </div>
+                    </div>
+                    <div class="col-lg-8 col-sm-7">
+                      <div class="right-content">
+                        <h4>Silva stalls on new Fulham contract | 'He was expecting more transfers'</h4>
+                        <span>English Premier Leauge</span>
+                        <p>Marco Silva has been offered a new Fulham contract; Portuguese manager has 12 months remaining on his current deal at Craven Cottage; Silva has turned down the chance to manage in Saudi Arabia; he has also turned down offers to manage other Premier League clubs.</p>
+
+                        <div class="text-button">
+                          <a href="#">Show Details <i class="fa fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="item">
+                  <div class="row">
+                    <div class="col-lg-4 col-sm-5">
+                      <div class="image">
+                        <img src="{{ url_for('static', filename='assets/images/news-02.jpg') }}" alt="">
+                      </div>
+                    </div>
+                    <div class="col-lg-8 col-sm-7">
+                      <div class="right-content">
+                        <h4>Busquets joins Messi at Inter Miami</h4>
+                        <span>La Liga | MLS</span>
+                        <p>Major League Soccer side Inter Miami announce the signing of World Cup winner and former Barcelona captain Sergio Busquets on a two-year deal; Busquets will occupy a Designated Player slot and will be reunited with former Barcelona team-mate Lionel Messi in Florida.</p>
+
+                        <div class="text-button">
+                          <a href="#">Show Details <i class="fa fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="item last-item">
+                  <div class="row">
+                    <div class="col-lg-4 col-sm-5">
+                      <div class="image">
+                        <img src="{{ url_for('static', filename='assets/images/news-03.jpg') }}" alt="">
+                      </div>
+                    </div>
+                    <div class="col-lg-8 col-sm-7">
+                      <div class="right-content">
+                        <h4>PSG close to appointing Luis Enrique as Galtier sacking confirmed</h4>
+                        <span>Ligue 1</span>
+                        <p>Paris Saint-Germain are close to agreeing a deal for Luis Enrique to become their new head coach; ex-Barcelona boss has been out of work since leaving Spain after their World Cup exit in December; Luis Enrique was on the shortlist for the Chelsea and Tottenham jobs earlier this summer.</p>
+
+                        <div class="text-button">
+                          <a href="#">Show Details <i class="fa fa-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
