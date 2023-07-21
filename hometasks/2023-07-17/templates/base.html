@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    {% block title %}
+        {% if title %}
+        <title>Transfer News - {{ title }}</title>
+        {% else %}
+        <title>Transfer News</title>
+        {% endif %}
+    {% endblock %}
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/fontawesome.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/templatemo-transfer-news.css') }}">
+
+  </head>
+
+<body>
+  {% block content %}
+  <header class="header-area header-sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <!-- ***** Logo Start ***** -->
+                    <a href="{{ url_for('index') }}" class="logo">
+                      <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="">
+                    </a>
+                    <!-- ***** Logo End ***** -->
+                    <!-- ***** Menu Start ***** -->
+
+                    <ul class="nav">
+                        {% for item in menu %}
+                            {% if item.name == title %}
+                                <li><a href="{{ item.url }}" class="active">{{ item.name }}</a></li>
+                            {% else %}
+                                <li><a href="{{ item.url }}">{{ item.name }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                </nav>
+            </div>
+        </div>
+    </div>
+  </header>
+  {% endblock %}
+  <!-- ***** Main Banner Area End ***** -->
+
+  {% include 'footer.html' ignore missing %}
+
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+  <script src="{{ url_for('static', filename='assets/js/custom.js') }}"></script>
