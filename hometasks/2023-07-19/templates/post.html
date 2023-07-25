@@ -73,6 +73,10 @@
                                         <ul class="info">
                                             <li><i class="fa fa-user"></i> <i>{{ comment_owner(comment.user_id)['username'] }}</i></li>
                                             <li><i class="fa fa-globe"></i> {{ comment.time }}</li>
+                                            {% if comment.user_id == user_data['id'] %}
+                                            <a href="/delete/{{ comment.id }}" class="x-button"><img src="{{ url_for('static', filename='assets/images/close-button.svg') }}"
+                                                                             height="13" width="13" alt="Delete comment"></a>
+                                            {% endif %}
                                         </ul>
                                     </div>
                                 </div>

@@ -997,7 +997,7 @@ Visit Country Style
 
 .news .item .right-content ul li {
   display: inline-flex;
-  width: 41%;
+  width: 44%;
   color: #afafaf;
   font-size: 14px;
 }
@@ -2347,6 +2347,18 @@ Reservation Page Style
 .flash.error {
   color: red;
   margin-right: 20px;
+}
+
+.info {
+  position: relative;
+}
+
+.x-button {
+    text-decoration: none;
+    color: #afafaf;
+    display: inline-block;
+    position: absolute;
+    right: 2px;
 }
 
 /* 

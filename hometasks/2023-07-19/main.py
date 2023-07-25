@@ -36,7 +36,6 @@ def load_user(user_id):
     db_con = connect_db()
     dbase = DataBase(db_con)
     user_data = dbase.get_user(user_id)
-    # db_con.close()
 
     if user_data:
         return User(user_id)
@@ -86,16 +85,17 @@ def index():
 def show_post(post_id):
     db_con = connect_db()
     dbase = DataBase(db_con)
-
     post = dbase.get_post(post_id)
     if not post:
         abort(404)
 
     comments = dbase.get_comments(post_id)
     username = session.get('username', None)
-
+    user_data = dbase.get_user_by_username(username)
+    print(username, user_data)
     return render_template('post.html', post=post, comments=comments, title=post['title'],
-                           menu=dbase.get_objects('navbar'), username=username, comment_owner=dbase.get_user)
+                           menu=dbase.get_objects('navbar'), username=username, user_data=user_data,
+                           comment_owner=dbase.get_user)
 
 
 @app.route('/post/<post_id>', methods=['GET', 'POST'])
@@ -115,6 +115,24 @@ def add_comment(post_id):
             print('Failed to add comment')
 
     return redirect(f'/post/{post_id}')
+
+
+@app.route('/delete/<int:id>')
+def delete_comment(id):
+    print(id)
+    db_con = connect_db()
+    dbase = DataBase(db_con)
+    comment = dbase.get_comment(id)
+    if not comment:
+        abort(404)
+
+    try:
+        dbase.del_comment(id)
+        print('Comment added successfully')
+    except Exception as e:
+        return f'Failed to delete comment from database: {e}'
+
+    return redirect(f'/post/{comment["url"]}')
 
 
 @app.route('/about')

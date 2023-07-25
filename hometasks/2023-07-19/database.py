@@ -71,9 +71,30 @@ class DataBase:
             return False
         return True
 
+    def del_comment(self, id):
+        sql = "DELETE FROM comments WHERE id = ?"
+        try:
+            self.__cur.execute(sql, (id,))
+            self.__db.commit()
+        except sqlite3.Error as e:
+            print('Failed to delete comment from database:', str(e))
+            return False
+        return True
+
+    def get_comment(self, id):
+        try:
+            sql = "SELECT * FROM comments WHERE id = ?"
+            self.__cur.execute(sql, (id,))
+            comment = self.__cur.fetchone()
+            if comment:
+                return dict(comment)
+        except sqlite3.Error as e:
+            print('Failed to fetch comment from database:', str(e))
+        return None
+
     def get_comments(self, post_id):
         try:
-            sql = "SELECT text, time, user_id FROM comments WHERE url == ?"
+            sql = "SELECT id, text, time, user_id FROM comments WHERE url == ?"
             self.__cur.execute(sql, (post_id,))
             res = self.__cur.fetchall()
             if res:
