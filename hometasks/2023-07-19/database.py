@@ -124,7 +124,8 @@ class DataBase:
             user_data = {
                 'id': row[0],
                 'username': row[1],
-                'password': row[2]
+                'email': row[2],
+                'password': row[3]
             }
             return user_data
         return None
@@ -139,3 +140,44 @@ class DataBase:
             print('Failed to add feedback to database:' + str(e))
             return False
         return True
+
+    def subscribe(self, email):
+        try:
+            tm = get_time()
+
+            check_sql = "SELECT COUNT(*) FROM subscription WHERE email = ?"
+            self.__cur.execute(check_sql, (email,))
+            email_exists = self.__cur.fetchone()[0]
+
+            if email_exists:
+                return 0
+            else:
+                insert_sql = "INSERT INTO subscription (email, time) VALUES (?, ?)"
+                self.__cur.execute(insert_sql, (email, tm))
+                self.__db.commit()
+                return 1
+        except sqlite3.Error as e:
+            print('Failed to add feedback to the database: ' + str(e))
+            return False
+
+    def signup(self, name, email, password):
+        try:
+            check_name = "SELECT COUNT(*) FROM users WHERE username = ?"
+            self.__cur.execute(check_name, (name,))
+            name_exists = self.__cur.fetchone()[0]
+
+            check_email = "SELECT COUNT(*) FROM users WHERE email = ?"
+            self.__cur.execute(check_email, (email,))
+            email_exists = self.__cur.fetchone()[0]
+
+            if email_exists or name_exists:
+                return 0
+            else:
+                tm = get_time()
+                sql = f'INSERT INTO users VALUES (NULL, ?, ?, ?, ?)'
+                self.__cur.execute(sql, (name, email, password, tm))
+                self.__db.commit()
+                return 1
+        except sqlite3.Error as e:
+            print('Failed to add user to database:' + str(e))
+            return False

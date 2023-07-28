@@ -58,7 +58,7 @@ def login():
 
         session['username'] = user_data['username']
     else:
-        flash('Invalid credentials. Please try again.', 'error')
+        flash('Invalid credentials. Please try again.', 'login_failure')
     return redirect(url_for('index'))
 
 
@@ -92,7 +92,6 @@ def show_post(post_id):
     comments = dbase.get_comments(post_id)
     username = session.get('username', None)
     user_data = dbase.get_user_by_username(username)
-    print(username, user_data)
     return render_template('post.html', post=post, comments=comments, title=post['title'],
                            menu=dbase.get_objects('navbar'), username=username, user_data=user_data,
                            comment_owner=dbase.get_user)
@@ -109,17 +108,12 @@ def add_comment(post_id):
 
     if request.method == 'POST' and "<div>" not in request.form['text'] and len(request.form['text']) > 0:
         res = dbase.add_comment(request.form['text'], post_id, username)
-        if res:
-            print('Comment added successfully')
-        else:
-            print('Failed to add comment')
 
     return redirect(f'/post/{post_id}')
 
 
 @app.route('/delete/<int:id>')
 def delete_comment(id):
-    print(id)
     db_con = connect_db()
     dbase = DataBase(db_con)
     comment = dbase.get_comment(id)
@@ -128,7 +122,6 @@ def delete_comment(id):
 
     try:
         dbase.del_comment(id)
-        print('Comment added successfully')
     except Exception as e:
         return f'Failed to delete comment from database: {e}'
 
@@ -153,15 +146,57 @@ def contact():
     if request.method == 'POST':
         res = dbase.send_feedback(request.form['name'], request.form['email'], request.form['message'])
         if res:
-            print('Feedback sent successfully')
-        else:
-            print('Failed to send feedback')
+            session['show_thank_you'] = True
 
-        session['show_thank_you'] = True
         return redirect('/contact')
 
     return render_template('feedback_form.html', title='Contact Us', menu=dbase.get_objects('navbar'),
                            username=username, show_thank_you=show_thank_you)
+
+
+@app.route('/subscribe', methods=['POST'])
+def subscribe():
+    email = request.form['email']
+
+    db_con = connect_db()
+    dbase = DataBase(db_con)
+
+    if request.method == 'POST':
+        res = dbase.subscribe(email)
+
+        if res == 1:
+            flash("You're subscribed to our newsletter", 'success')
+        elif res == 0:
+            flash('Your email was subscribed earlier', 'warning')
+        else:
+            flash('An error occurred, try again', 'error')
+
+    return redirect(url_for('index'))
+
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    db_con = connect_db()
+    dbase = DataBase(db_con)
+    username = session.get('username', None)
+    signup_success_msg = session.pop('signup_success_msg', False)
+
+    if request.method == 'POST':
+        if request.form['password'] == request.form['pass_confirm']:
+            res = dbase.signup(request.form['name'], request.form['email'], request.form['password'])
+            if res == 1:
+                session['signup_success_msg'] = True
+            elif res == 0:
+                flash('Username or email already taken', 'repeat')
+            else:
+                flash('An error occurred. Try again', 'signup_error')
+        else:
+            flash('Passwords do not match', 'mismatch')
+
+        return redirect('/signup')
+
+    return render_template('signup.html', title='Sign Up', menu=dbase.get_objects('navbar'),
+                           username=username, signup_success_msg=signup_success_msg)
 
 
 @app.errorhandler(404)

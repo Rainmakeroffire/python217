@@ -2224,12 +2224,21 @@ Reservation Page Style
   border-bottom-left-radius: 23px;
 }
 
-.feedback-form #feedback-form label {
+#signup-form {
+  padding: 30px 120px 60px 0px;
+  background-color: white;
+  border-bottom-right-radius: 23px;
+  border-bottom-left-radius: 23px;
+}
+
+.feedback-form #feedback-form label,
+ #signup-form label {
   font-size: 15px;
   color: #afafaf;
 }
 
 .feedback-form #feedback-form input,
+#signup-form input,
 .feedback-form #feedback-form select {
   width: 100%;
   height: 46px;
@@ -2257,7 +2266,8 @@ Reservation Page Style
   color: #aaa;
 }
 
-.feedback-form #feedback-form button {
+.feedback-form #feedback-form button,
+ #signup-form button {
   font-size: 14px;
   color: #fff;
   background-color: #22b3c1;
@@ -2273,6 +2283,11 @@ Reservation Page Style
   transition: all .3s;
   position: relative;
   overflow: hidden;
+}
+
+#signup-form button {
+    width: 84%;
+    margin-top: 16px;
 }
 
 .feedback-form #feedback-form button:hover {
@@ -2344,9 +2359,31 @@ Reservation Page Style
   margin-bottom: 8px;
 }
 
+.flash.login_failure,
 .flash.error {
   color: red;
   margin-right: 20px;
+}
+
+.flash.warning {
+  color: blue;
+  margin-right: 190px;
+}
+
+.flash.success {
+  color: green;
+  margin-right: 180px;
+}
+
+.flash.mismatch,
+.flash.signup_error,
+.flash.repeat {
+  color: red;
+  margin-top: 35px;
+}
+
+#signup-success h4 {
+    margin: 25px 0;
 }
 
 .info {
@@ -2359,6 +2396,11 @@ Reservation Page Style
     display: inline-block;
     position: absolute;
     right: 2px;
+}
+
+.wrapper {
+    min-width: 640px;
+    flex-direction: column;
 }
 
 /* 

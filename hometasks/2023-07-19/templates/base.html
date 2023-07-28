@@ -70,7 +70,7 @@
     <div class="modal-dialog modal-fullscreen-md-down" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalLabel">Login</h5>
+                <h5 class="modal-title" id="modalLabel">Login or <a href="{{ url_for('signup') }}">Sign Up</a></h5>
             </div>
             <form id="loginForm" method="post" action="/login">
                 <div class="modal-body">
@@ -79,7 +79,9 @@
                 </div>
                 <div class="modal-footer">
                     {% for cat, msg in get_flashed_messages(True) %}
+                    {% if cat == 'login_failure' %}
                     <div class="flash {{ cat }}">{{ msg }}</div>
+                    {% endif %}
                     {% endfor %}
                     <button type="submit" class="btn btn-primary" id="lg">Login</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

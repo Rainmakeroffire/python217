@@ -6,13 +6,37 @@
           <h4>Subscribe to our newsletter</h4>
         </div>
         <div class="col-lg-4">
-          <div class="border-button">
+          <div class="border-button" data-bs-toggle="modal" data-bs-target="#subscribe">
             <a href="#">Subscribe</a>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="subscribe">
+    <div class="modal-dialog modal-fullscreen-md-down" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Enter your email</h5>
+            </div>
+            <form id="loginForm" method="post" action="/subscribe">
+                <div class="modal-body">
+                    <input type="email" name="email" class="form-control" placeholder="Email" id="sub_email" required>
+                </div>
+                <div class="modal-footer">
+                    {% for cat, msg in get_flashed_messages(True) %}
+                    {% if cat != 'login_failure' %}
+                    <div class="flash {{ cat }}">{{ msg }}</div>
+                    {% endif %}
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary" id="lg">Subscribe</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
   <footer>
     <div class="container">
