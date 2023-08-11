@@ -35,6 +35,22 @@ class DataBase:
             print('Failed to read database')
         return []
 
+    def get_paginated_obj(self, table, page, per_page):
+        offset = (page - 1) * per_page
+        sql = f"SELECT * FROM {table} LIMIT ? OFFSET ?"
+        try:
+            self.__cur.execute(sql, (per_page, offset))
+            posts = self.__cur.fetchall()
+
+            count_sql = f"SELECT COUNT(*) FROM {table}"
+            self.__cur.execute(count_sql)
+            total_posts = self.__cur.fetchone()[0]
+
+            return posts, total_posts
+        except sqlite3.Error:
+            print('Failed to read database')
+            return [], 0
+
     def add_post(self, title, text):
         tm = int(time.time())
         sql = f'INSERT INTO posts VALUES (NULL, ?, ?, ?)'

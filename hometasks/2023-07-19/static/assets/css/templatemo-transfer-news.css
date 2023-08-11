@@ -383,7 +383,7 @@ Header Style
   justify-content: flex-end;
   vertical-align: middle;
   margin-top: 15px;
-  margin-right: 0px;
+  margin-right: 32px;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
@@ -2323,8 +2323,8 @@ Reservation Page Style
 .greeting {
     display: block;
     position: absolute;
-    right: 22px;
-    top: 22px;
+    right: 32px;
+    top: 23px;
     color: white;
 }
 

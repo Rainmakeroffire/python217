@@ -76,9 +76,14 @@ def index():
     db_con = connect_db()
     dbase = DataBase(db_con)
 
+    page = request.args.get('page', default=1, type=int)
+    per_page = 3
+    posts, total_posts = dbase.get_paginated_obj('posts', page, per_page)
+
     username = session.get('username', None)
     return render_template('index.html', title='Home', menu=dbase.get_objects('navbar'),
-                           posts=dbase.get_objects('posts'), username=username)
+                           posts=posts, username=username, page=page, per_page=per_page,
+                           total_posts=total_posts)
 
 
 @app.route('/post/<post_id>')
