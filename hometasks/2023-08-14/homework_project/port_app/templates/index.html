@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="main-nav">
+    <div class="navbar">
+        <ul>
+            {% for work in works %}
+            <li><a href="#{{ forloop.counter }}">Work {{ forloop.counter }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<h1 id="main-heading">Portfolios That Will Inspire You</h1>
+{% for work in works %}
+<div class="post">
+    <h2 id="{{ forloop.counter }}">{{ work.title }}</h2>
+    <img src="{% static 'port_app/images/' %}{{ forloop.counter }}.jpg" alt="">
+    <div class="description">{{ work.description | safe }}</div>
+</div>
+{% endfor %}
+
+{% endblock %}
