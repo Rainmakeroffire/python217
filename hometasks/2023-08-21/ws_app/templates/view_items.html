@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+    <section class="product_section ">
+      <div class="container">
+        <div class="product_heading">
+          <h2>
+            Edit Items
+          </h2>
+        </div>
+        <div class="product_container">
+          {% for product in products %}
+          <div class="box">
+            <div class="box-content">
+              <div class="img-box">
+                <img src="{{ product.image.url }}" alt="">
+              </div>
+              <div class="detail-box">
+                <div class="text">
+                  <h6>
+                    {{ product.name }}
+                  </h6>
+                  <h5>
+                    <span>$</span> {{ product.price }}
+                  </h5>
+                </div>
+                <div class="like">
+                  <h6>
+                    Like
+                  </h6>
+                  <div class="star_container">
+                    {% for _ in product.rating|get_star_range %}
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="btn-box">
+              <a href="{% url 'update_item' product.id %}" id="edit-btn">
+                Edit
+              </a>
+            </div>
+            <div class="btn-box">
+              <form action="{% url 'delete_item' product.id %}" method="post">
+                  {% csrf_token %}
+                  <button class="delete-btn">Delete</button>
+              </form>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+{% endblock %}

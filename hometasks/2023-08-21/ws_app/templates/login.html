@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="form-box">
+        <h1>Log In</h1>
+        <form method="post" class="bg">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="btn-block">
+                <div class="error-msg">
+                    <p>{{ error }}</p>
+                </div>
+                <button class="form-btn">Log In</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
