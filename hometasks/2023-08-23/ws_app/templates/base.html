@@ -1,0 +1,304 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HandTime</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'ws_app/images/favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'ws_app/css/style.css' %}">
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="{% static 'ws_app/css/bootstrap.css' %}" />
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- font awesome style -->
+  <link href="{% static 'ws_app/css/font-awesome.min.css' %}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{% static 'ws_app/css/responsive.css' %}" rel="stylesheet" />
+
+</head>
+<body>
+
+  <div class="hero_area">
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container " style="padding-left: 0px; padding-right: 0px;">
+          <a class="navbar-brand" href="{% url 'index' %}">
+            <span>
+              HandTime
+            </span>
+          </a>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                {% for item in navbar_items %}
+                    <li class="nav-item" data-url="{% url item.url_name %}">
+                        <a class="nav-link" href="{% url item.url_name %}">{{ item.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="user_optio_box">
+              <a href="{% if user.is_staff %}{% url 'add_content' %}{% else %}#{% endif %}" class="username">{{ user.username }}</a>
+              <a href="#user-menu" class="user-icon" data-toggle="collapse" aria-expanded="false" aria-controls="user-menu">
+                <i class="fa fa-user" aria-hidden="true"></i>
+              </a>
+              <a href="#cart-menu" class="cart-icon" data-toggle="collapse" aria-expanded="false" aria-controls="cart-menu">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+              </a>
+            </div>
+
+            <div class="collapse user-menu" id="user-menu">
+              <div class="card card-body">
+                <a href="{% url 'signup' %}">
+                  Sign Up
+                </a>
+                <a href="{% if user.is_authenticated %}{% url 'logout' %}{% else %}{% url 'login' %}{% endif %}">
+                  {% if user.is_authenticated %}Log Out{% else %}Log In{% endif %}
+                </a>
+              </div>
+            </div>
+
+            <div class="collapse cart-menu" id="cart-menu">
+              <div class="card card-body">
+                <a href="{% url 'cart' %}">
+                  Cart
+                </a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'orders' %}">
+                  Orders
+                </a>
+                {% endif %}
+              </div>
+            </div>
+
+          </div>
+        </nav>
+      </div>
+    </header>
+  </div>
+
+  <div class="content">
+    <div class="wrap">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </div>
+
+  <section class="info_section layout_padding2">
+    <div class="container">
+      <div class="info_logo">
+        <h2>
+          HandTime
+        </h2>
+      </div>
+      <div class="row">
+
+        <div class="col-md-3">
+          <div class="info_contact">
+            <h5>
+              About Shop
+            </h5>
+            <div>
+              <div class="img-box">
+                <img src="{% static 'ws_app/images/location-white.png' %}" width="18px" alt="">
+              </div>
+              <p>
+                Address
+              </p>
+            </div>
+            <div>
+              <div class="img-box">
+                <img src="{% static 'ws_app/images/telephone-white.png' %}" width="12px" alt="">
+              </div>
+              <p>
+                +01 1234567890
+              </p>
+            </div>
+            <div>
+              <div class="img-box">
+                <img src="{% static 'ws_app/images/envelope-white.png' %}" width="18px" alt="">
+              </div>
+              <p>
+                demo@gmail.com
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="info_info">
+            <h5>
+              Informations
+            </h5>
+            <p>
+              ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="info_insta">
+            <h5>
+              Instagram
+            </h5>
+            <div class="insta_container">
+              <div class="row m-0">
+                <div class="col-4 px-0">
+                  <a href="">
+                    <div class="insta-box b-1">
+                      <img src="{% static 'ws_app/images/w1.png' %}" alt="">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-4 px-0">
+                  <a href="">
+                    <div class="insta-box b-1">
+                      <img src="{% static 'ws_app/images/w2.png' %}" alt="">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-4 px-0">
+                  <a href="">
+                    <div class="insta-box b-1">
+                      <img src="{% static 'ws_app/images/w3.png' %}" alt="">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-4 px-0">
+                  <a href="">
+                    <div class="insta-box b-1">
+                      <img src="{% static 'ws_app/images/w4.png' %}" alt="">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-4 px-0">
+                  <a href="">
+                    <div class="insta-box b-1">
+                      <img src="{% static 'ws_app/images/w5.png' %}" alt="">
+                    </div>
+                  </a>
+                </div>
+                <div class="col-4 px-0">
+                  <a href="">
+                    <div class="insta-box b-1">
+                      <img src="{% static 'ws_app/images/w6.png' %}" alt="">
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="info_form ">
+            <h5>
+              Newsletter
+            </h5>
+            <form action="">
+              <input type="email" placeholder="Enter your email">
+              <button>
+                Subscribe
+              </button>
+            </form>
+            <div class="social_box">
+              <a href="">
+                <img src="{% static 'ws_app/images/fb.png' %}" alt="">
+              </a>
+              <a href="">
+                <img src="{% static 'ws_app/images/twitter.png' %}" alt="">
+              </a>
+              <a href="">
+                <img src="{% static 'ws_app/images/linkedin.png' %}" alt="">
+              </a>
+              <a href="">
+                <img src="{% static 'ws_app/images/youtube.png' %}" alt="">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="footer_section">
+    <div class="container">
+      <p>
+        &copy; <span id="displayYear"></span> All Rights Reserved By
+        <a href="#">Handtime</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- jQery -->
+  <script type="text/javascript" src="{% static 'ws_app/js/jquery-3.4.1.min.js' %}"></script>
+  <!-- Navbar Active Items -->
+  <script>
+  $(document).ready(function() {
+      var currentPath = window.location.pathname;
+
+      $('.nav-item').removeClass('active');
+
+      $('.nav-item').each(function() {
+          var itemUrl = $(this).data('url');
+
+          if (currentPath === itemUrl) {
+              $(this).addClass('active');
+          }
+      });
+  });
+  </script>
+  <!-- popper js -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <!-- bootstrap js -->
+  <script type="text/javascript" src="{% static 'ws_app/js/bootstrap.js' %}"></script>
+  <!-- custom js -->
+  <script type="text/javascript" src="{% static 'ws_app/js/custom.js' %}"></script>
+  <!-- Google Map -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+  </script>
+  <!-- Toggle Menu User-->
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const userMenu = document.querySelector(".user-menu");
+
+    document.addEventListener("click", function (event) {
+      if (!userMenu.contains(event.target)) {
+        userMenu.classList.remove("show");
+      }
+    });
+  });
+  </script>
+  <!-- Toggle Menu Cart-->
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const userMenu = document.querySelector(".cart-menu");
+
+    document.addEventListener("click", function (event) {
+      if (!userMenu.contains(event.target)) {
+        userMenu.classList.remove("show");
+      }
+    });
+  });
+  </script>
+  <!-- Input Fields Handling -->
+  <script>
+  const quantityInputs = document.querySelectorAll('.quantity-input');
+
+  quantityInputs.forEach(input => {
+    input.addEventListener('input', function() {
+      const quantity = parseInt(input.value);
+      const price = parseFloat(input.dataset.price);
+      const subtotal = quantity * price;
+      const subtotalCell = input.parentNode.nextElementSibling;
+      subtotalCell.textContent = `${subtotal.toFixed(2)}`;
+    });
+  });
+  </script>
+
+</body>
+</html>

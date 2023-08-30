@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="form-box">
+    <h1>ADD CONTENT HERE</h1>
+    <form method="post" class="bg" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="center">
+            <button class="form-btn">Add</button>
+            <a href="{% url 'view_items' %}" class="edit-items" target="_blank">View Items</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
