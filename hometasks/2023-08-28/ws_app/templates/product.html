@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+    <div class="product_container">
+        {% with nothing_found=True %}
+        {% for category in categories %}
+        {% with products_in_category=products|filter_categories:category.id %}
+        {% if products_in_category %}
+        <section class="product_section ">
+          <div class="container">
+            <div class="product_heading">
+              <h2>
+                {{ category.title }}
+              </h2>
+            </div>
+            <div class="product_container">
+              {% for product in products %}
+              {% if category in product.categories.all %}
+              <div class="box">
+                <div class="box-content">
+                  <div class="img-box">
+                    <img src="{{ product.image.url }}" alt="">
+                  </div>
+                  <div class="detail-box">
+                    <div class="text">
+                      <h6>
+                        {{ product.name }}
+                      </h6>
+                      <h5>
+                        <span>$</span> {{ product.price }}
+                      </h5>
+                    </div>
+                    <div class="like">
+                      <h6>
+                        Like
+                      </h6>
+                      <div class="star_container">
+                        {% for _ in product.rating|get_star_range %}
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="btn-box">
+                  <a href="{% url 'add_to_cart' product.id %}">
+                    Add To Cart
+                  </a>
+                </div>
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+        {% else %}
+        {% if forloop.last and nothing_found %}
+        <div class="not-found">
+          <div class="not-found-wrapper">
+              <h2>NOTHING FOUND</h2>
+              <p>Update search parameters and try again</p>
+          </div>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% endwith %}
+        {% endfor %}
+        {% endwith %}
+    </div>
+{% endblock %}
