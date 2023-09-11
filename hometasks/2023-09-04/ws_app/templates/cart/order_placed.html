@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="order-placed-container">
+    <h2>Order Placed</h2>
+    <p>Your order {{ order_number }} has been placed. Our manager will contact you shortly.</p>
+    <div class="btn-box lnk-back">
+      <a href="{% url 'index' %}">Back to Main Page</a>
+    </div>
+  </div>
+{% endblock %}

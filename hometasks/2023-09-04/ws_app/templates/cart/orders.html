@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="orders-container">
+    <h2>Your Order History</h2>
+    <table class="table">
+      <tr>
+        <th>#</th>
+        <th>Placed</th>
+        <th>Cost</th>
+        <th>Status</th>
+      </tr>
+      {% for order in user_orders %}
+        <tr>
+          <td><a href="{% url 'order_details' order.id %}">#{{ order.id|stringformat:"05d" }}</a></td>
+          <td>{{ order.placed }}</td>
+          <td>${{ order.total_cost }}</td>
+          <td>{{ order.get_status_display }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+{% endblock %}

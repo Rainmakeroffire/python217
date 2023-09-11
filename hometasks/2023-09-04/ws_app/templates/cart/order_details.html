@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block content %}
+  <div class="details-container">
+    <h2>Order Details - #{{ order.id|stringformat:"05d" }}</h2>
+    <table class="table">
+      <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+      </tr>
+      {% for item_info in order.cart_items_info|json_loads %}
+        <tr>
+          <td>{{ item_info.product_name }}</td>
+          <td>${{ item_info.product_price|floatformat:2 }}</td>
+          <td>{{ item_info.quantity }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+    <p>Order Cost: ${{ order.cost }}</p>
+    <p>Applied Discount: {{ order.applied_discount }}%</p>
+    <p class="total-cost">Total Cost: ${{ order.total_cost }}</p>
+    <p>Status: {{ order.get_status_display }}</p>
+    {% if order.status != 'cancelled' %}
+      <form method="post">
+        {% csrf_token %}
+        <div class="btn-box">
+          <button type="submit" name="cancel_order" class="cancel-btn">Cancel Order</button>
+        </div>
+      </form>
+    {% endif %}
+    <div class="btn-box lnk-back">
+      <a href="{% url 'orders' %}">Back to Order History</a>
+    </div>
+  </div>
+{% endblock %}
