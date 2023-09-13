@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="form-box">
+<h1>EDIT PROFILE</h1>
+    <form method="post" class="bg" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="center">
+            <button class="form-btn">Update</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

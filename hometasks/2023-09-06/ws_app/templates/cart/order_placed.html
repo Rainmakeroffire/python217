@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="order-placed-container">
+    <h2>Order Placed</h2>
+    <p>Your order <a href="{% url 'order_details' order_id %}">#{{ order_id|stringformat:"#05d" }}</a> has been placed. Our manager will contact you shortly.</p>
+    <div class="btn-box lnk-back">
+      <a href="{% url 'index' %}">Back to Main Page</a>
+    </div>
+  </div>
+{% endblock %}

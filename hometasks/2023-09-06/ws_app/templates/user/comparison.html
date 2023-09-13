@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+{% block content %}
+<div class="comparison-container">
+  <h1>Product Comparison</h1>
+  {% with items_in_comparison=user.comparison_set.all %}
+    {% if items_in_comparison %}
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <tbody>
+      <tr class="bold-text">
+        <td></td>
+        {% for product in compared_products %}
+        <td class="table-header">
+          <div class="product-info">
+            <a href="{% url 'remove_from_comparison' product.id %}" class="btn btn-danger btn-sm" id="remove-btn">
+              Remove
+            </a>
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" width="100" height="130">
+            <p>{{ product.name }}</p>
+          </div>
+        </td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="bold-text">Price</td>
+        {% for product in compared_products %}
+        <td>{{ product.price|floatformat:2 }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="bold-text">Manufacturer</td>
+        {% for product in compared_products %}
+        <td>{{ product.manufacturer }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="bold-text">Type</td>
+        {% for product in compared_products %}
+        <td>{{ product.characteristics|get_json_key:"type" }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="bold-text">Gender</td>
+        {% for product in compared_products %}
+        <td>{{ product.characteristics|get_json_key:"gender" }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="bold-text">Country</td>
+        {% for product in compared_products %}
+        <td>{{ product.characteristics|get_json_key:"country" }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="bold-text">Case Material</td>
+        {% for product in compared_products %}
+        <td>{{ product.characteristics|get_json_key:"case material" }}</td>
+        {% endfor %}
+      </tr>
+      <tr>
+        <td class="bold-text">Waterproof</td>
+        {% for product in compared_products %}
+        <td>{{ product.characteristics|get_json_key:"waterproof" }}</td>
+        {% endfor %}
+      </tr>
+      </tbody>
+    </table>
+  </div>
+    {% else %}
+    <p>No items to compare</p>
+    {% endif %}
+  {% endwith %}
+</div>
+{% endblock %}

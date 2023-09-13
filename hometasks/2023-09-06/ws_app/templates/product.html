@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+    <div class="product_container">
+        {% for category in categories %}
+        {% with products_in_category=products|filter_categories:category.id %}
+        {% if products_in_category %}
+        <section class="product_section ">
+          <div class="container">
+            <div class="product_heading">
+              <h2>
+                {{ category.title }}
+              </h2>
+            </div>
+            <div class="product_container">
+              {% for product in products %}
+              {% if category in product.categories.all %}
+              {% if category.name != 'sale' or product|has_valid_discount %}
+              <div class="box">
+                    {% with discount_info=product|get_discount_info %}
+                        {% if discount_info.valid_discount %}
+                            <div class="discount-stripe">
+                                <div class="discount-text">
+                                    <p><b>-{{ discount_info.discount_value }}%</b></p>
+                                    <p>Till {{ discount_info.valid_until }}</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                <div class="box-content">
+                  {% if user.is_authenticated %}
+                    {% with is_favorite=product|is_in_favorites:user %}
+                    {% with is_compared=product|is_in_comparison:user %}
+                      <div class="fav-wrapper">
+                        <a href="{% if is_compared %}{% url 'remove_from_comparison' product.id %}{% else %}{% url 'add_to_comparison' product.id %}{% endif %}">
+                        {% if is_compared %}
+                          <img src="{% static 'ws_app/images/compare-active.svg' %}" class="fav-icon" width="30" height="30"></a>
+                        {% else %}
+                          <img src="{% static 'ws_app/images/compare.svg' %}" class="fav-icon" width="30" height="30"></a>
+                        {% endif %}
+
+                        <a href="{% if is_favorite %}{% url 'remove_from_favorites' product.id %}{% else %}{% url 'add_to_favorites' product.id %}{% endif %}">
+                        {% if is_favorite %}
+                          <img src="{% static 'ws_app/images/fav-icon-active.svg' %}" class="fav-icon" width="30" height="30">
+                        {% else %}
+                          <img src="{% static 'ws_app/images/fav-icon.svg' %}" class="fav-icon" width="30" height="30">
+                        {% endif %}
+                        </a>
+                      </div>
+                    {% endwith %}
+                    {% endwith %}
+                  {% endif %}
+                  <div class="img-box">
+                    <img src="{{ product.image.url }}" alt="">
+                  </div>
+                  <div class="detail-box">
+                    <div class="text">
+                      <h6>
+                        {{ product.name }}
+                      </h6>
+                      {% with discount_info=product|get_discount_info %}
+                        <h5>
+                            {% with discounted_price=product|get_discounted_price %}
+                            {% if discount_info.valid_discount %}
+                            <span class="old-price">$ {{ discounted_price.base_price|floatformat:2 }}</span>
+                            $ {{ discounted_price.product_price|floatformat:2 }}
+                            {% else %}
+                            <span>$ {{ product.price|floatformat:2 }}</span>
+                            {% endif %}
+                            {% endwith %}
+                        </h5>
+                      {% endwith %}
+                    </div>
+                    <div class="like">
+                      <h6>
+                        Like
+                      </h6>
+                      <div class="star_container">
+                        {% for _ in product.rating|get_star_range %}
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="btn-box">
+                  {% if user.is_authenticated %}
+                  {% with is_cart_item=product|is_in_cart:user %}
+                      {% if is_cart_item %}
+                          <a href="{% url 'cart'%}" id="to-cart-btn">Go to Cart</a>
+                      {% else %}
+                          <a href="{% url 'add_to_cart' product.id %}">Add To Cart</a>
+                      {% endif %}
+                  {% endwith %}
+                  {% else %}
+                  <a href="{% url 'login' %}">Add To Cart</a>
+                  {% endif %}
+                </div>
+              </div>
+              {% endif %}
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+        {% else %}
+        {% if forloop.last and not products %}
+        <div class="not-found">
+          <div class="not-found-wrapper">
+              <h2>NOTHING FOUND</h2>
+              <p>Update search parameters and try again</p>
+          </div>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% endwith %}
+        {% endfor %}
+    </div>
+{% endblock %}

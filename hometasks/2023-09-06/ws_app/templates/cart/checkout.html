@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block content %}
+  <div class="checkout-container">
+    <h2>Checkout</h2>
+    <table class="table">
+      <tr>
+        <th>Product</th>
+        <th>Price, $</th>
+        <th>Quantity</th>
+        <th>Subtotal, $</th>
+      </tr>
+      {% for cart_item in cart_items %}
+        <tr>
+          <td>{{ cart_item.product.name }}</td>
+          <td>{{ cart_item.product.price|floatformat:2 }}</td>
+          <td>{{ cart_item.quantity }}</td>
+          <td>{{ cart_item.subtotal|floatformat:2 }}</td>
+        </tr>
+      {% endfor %}
+      <tr>
+        <td colspan="3">Total, $:</td>
+        <td>
+          {{ cart_items|total_price }}
+        </td>
+      </tr>
+      <tr class="cumulative-discount">
+        <td colspan="3">Including Cumulative Discount ({{ cumulative_discount }}%), $:</td>
+        <td>
+          {{ grand_total|floatformat:2 }}
+        </td>
+      </tr>
+      <tr class="grand-total">
+        <td colspan="3" class="grand-total-label">Grand Total, $:</td>
+        <td class="grand-total">
+          {{ grand_total|floatformat:2 }}
+        </td>
+      </tr>
+    </table>
+
+    <form method="post" action="{% url 'place_order' %}">
+      {% csrf_token %}
+      <div class="btn-box place-order">
+        <button type="submit" class="checkout-btn" id="align">Place Order</button>
+      </div>
+    </form>
+    <div class="btn-box lnk-back">
+      <a href="{% url 'cart' %}">Back to Cart</a>
+    </div>
+  </div>
+{% endblock %}

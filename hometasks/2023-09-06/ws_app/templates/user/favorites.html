@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+    <div class="product_container">
+        <section class="product_section ">
+          <div class="container favorites">
+            <div class="product_heading">
+              <h2>
+                FAVORITES
+              </h2>
+            </div>
+            <div class="product_container">
+              {% for favorite in favorites %}
+              <div class="box">
+                  {% with discount_info=favorite.product|get_discount_info %}
+                      {% if discount_info.valid_discount %}
+                          <div class="discount-stripe">
+                              <div class="discount-text">
+                                  <p><b>-{{ discount_info.discount_value }}%</b></p>
+                                  <p>Till {{ discount_info.valid_until }}</p>
+                              </div>
+                          </div>
+                      {% endif %}
+                  {% endwith %}
+                <div class="box-content">
+                    {% if favorite.user == request.user %}
+                            <a href="{% url 'remove_from_favorites' favorite.product.id %}" id="fav">
+                                <img src="{% static 'ws_app/images/fav-icon-active.svg' %}" class="fav-icon" width="40" height="40">
+                            </a>
+                    {% else %}
+                            <a href="{% url 'add_to_favorites' favorite.product.id %}">
+                                <img src="{% static 'ws_app/images/fav-icon.svg' %}" class="fav-icon" width="40" height="40">
+                            </a>
+                    {% endif %}
+                  <div class="img-box">
+                    <img src="{{ favorite.product.image.url }}" alt="">
+                  </div>
+                  <div class="detail-box">
+                    <div class="text">
+                      <h6>
+                        {{ favorite.product.name }}
+                      </h6>
+                      {% with discount_info=favorite.product|get_discount_info %}
+                        <h5>
+                            {% with discounted_price=favorite.product|get_discounted_price %}
+                            {% if discount_info.valid_discount %}
+                            <span class="old-price">$ {{ discounted_price.base_price|floatformat:2 }}</span>
+                            $ {{ discounted_price.product_price|floatformat:2 }}
+                            {% else %}
+                            <span>$ {{ favorite.product.price|floatformat:2 }}</span>
+                            {% endif %}
+                            {% endwith %}
+                        </h5>
+                      {% endwith %}
+                    </div>
+                    <div class="like">
+                      <h6>
+                        Like
+                      </h6>
+                      <div class="star_container">
+                        {% for _ in favorite.product.rating|get_star_range %}
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="btn-box">
+                    {% if user.is_authenticated %}
+                            {% if favorite.product|is_in_cart:user %}
+                                <a href="{% url 'cart'%}" id="to-cart-btn">Go to Cart</a>
+                            {% else %}
+                                <a href="{% url 'add_to_cart' favorite.product.id %}">Add To Cart</a>
+                            {% endif %}
+                    {% else %}
+                        <a href="{% url 'login' %}">Add To Cart</a>
+                    {% endif %}
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </section>
+    </div>
+{% endblock %}
